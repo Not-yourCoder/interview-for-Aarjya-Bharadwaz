@@ -17,12 +17,8 @@ export const getLaunchpads = async (): Promise<Launchpad[]> => {
   return res.data;
 };
 
-export const getLaunchePadsById = async (
-  id: string
-): Promise<any[]> => {
-  const res = await axios.get<any[]>(
-    `${BASE_URL}/launchpads/${id}`
-  );
+export const getLaunchPadsById = async (id: string): Promise<Launchpad> => {
+  const res = await axios.get<Launchpad>(`${BASE_URL}/launchpads/${id}`);
   return res.data;
 };
 
@@ -31,10 +27,8 @@ export const getRockets = async (): Promise<Rocket[]> => {
   return res.data;
 };
 
-export const getRocketsById = async (
-  id: string
-): Promise<any[]> => {
-  const res = await axios.get<any[]>(`${BASE_URL}/rockets/${id}`);
+export const getRocketsById = async (id: string): Promise<Rocket> => {
+  const res = await axios.get<Rocket>(`${BASE_URL}/rockets/${id}`);
   return res.data;
 };
 
@@ -43,3 +37,7 @@ export const getPayloads = async (): Promise<Payload[]> => {
   return res.data;
 };
 
+export const getPayloadsById = async (id: string): Promise<Payload> => {
+  const res = await axios.get<Payload>(`${BASE_URL}/payloads/${id}`);
+  return res.data;
+};

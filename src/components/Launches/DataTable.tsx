@@ -1,5 +1,3 @@
-"use client"
-
 import {
     type ColumnDef,
     flexRender,
@@ -20,12 +18,14 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
     className?: string
+    onRowClick: (details: TData) => void
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
-    className
+    className,
+    onRowClick
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -37,10 +37,10 @@ export function DataTable<TData, TValue>({
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
+                        <TableRow key={headerGroup.id} >
                             {headerGroup.headers.map((header) => {
                                 return (
-                                    <TableHead key={header.id}>
+                                    <TableHead key={header.id} className="p-4 text-center">
                                         {header.isPlaceholder
                                             ? null
                                             : flexRender(
@@ -59,9 +59,11 @@ export function DataTable<TData, TValue>({
                             <TableRow
                                 key={row.id}
                                 data-state={row.getIsSelected() && "selected"}
+                                className="p-4 hover:bg-slate-300"
+                                onClick={() => onRowClick(row.original)}
                             >
                                 {row.getVisibleCells().map((cell) => (
-                                    <TableCell key={cell.id}>
+                                    <TableCell key={cell.id} className="p-4 max-w-44 overflow-hidden text-center">
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </TableCell>
                                 ))}
@@ -70,7 +72,7 @@ export function DataTable<TData, TValue>({
                     ) : (
                         <TableRow>
                             <TableCell colSpan={columns.length} className="h-24 text-center">
-                                No results.
+                                No results found.
                             </TableCell>
                         </TableRow>
                     )}

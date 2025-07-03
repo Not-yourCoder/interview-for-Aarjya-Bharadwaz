@@ -1,4 +1,5 @@
 import type { DateRange } from "@/types/filters";
+import type { LaunchResponse } from "@/types/launches";
 
 export const calculateDateRange = (rangeType?: string): DateRange => {
   const today = new Date();
@@ -35,3 +36,48 @@ export const calculateDateRange = (rangeType?: string): DateRange => {
 
 export const getDateOnly = (date: Date) =>
   new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime();
+
+export const getStatusLabel = (variant: string) => {
+  switch (variant) {
+    case "success":
+      return "Success";
+    case "upcoming":
+      return "Upcoming";
+    case "failed":
+      return "Failed";
+    default:
+      return "Unknown";
+  }
+};
+
+
+export const formatDateTime = (dateString: string | undefined) => {
+  if (!dateString) return "N/A";
+
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return "Invalid Date";
+
+  return date
+    .toLocaleString("en-GB", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    })
+    .replace(",", " at");
+};
+
+export const getLaunchStatusVariant = (launch: LaunchResponse) => {
+  if (launch.success) return "success";
+  if (launch.upcoming) return "upcoming";
+  if (launch.tbd) return "upcoming";
+  return "failed";
+};
+
+export const getStatusVariant = (launch: any) => {
+  if (launch.success) return "success";
+  if (launch.upcoming || launch.tbd) return "upcoming";
+  return "failed";
+};
