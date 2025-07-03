@@ -19,20 +19,21 @@ import {
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
+    className?: string
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
+    className
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
     })
-
     return (
-        <div className="rounded-md border">
+        <div className={`rounded-md border ${className}`}>
             <Table>
                 <TableHeader>
                     {table.getHeaderGroups().map((headerGroup) => (

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type { LauncheResponse } from "@/types/launches";
+import type { LaunchResponse } from "@/types/launches";
 import type { Launchpad } from "@/types/launchpads";
 import type { Payload } from "@/types/payloads";
 import type { Rocket } from "@/types/rockets";
@@ -7,8 +7,8 @@ import axios from "axios";
 
 const BASE_URL = "https://api.spacexdata.com/v4";
 
-export const getLaunches = async (): Promise<LauncheResponse[]> => {
-  const res = await axios.get<LauncheResponse[]>(`${BASE_URL}/launches`);
+export const getLaunches = async (): Promise<LaunchResponse[]> => {
+  const res = await axios.get<LaunchResponse[]>(`${BASE_URL}/launches`);
   return res.data;
 };
 

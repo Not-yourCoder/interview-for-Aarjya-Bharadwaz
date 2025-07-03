@@ -8,7 +8,7 @@ export type LauncheColumns = {
   rocket: string;
 };
 
-export type LauncheResponse = {
+export type LaunchResponse = {
   fairings: {
     reused: boolean;
     recovery_attempt: boolean;
@@ -75,4 +75,9 @@ export type LauncheResponse = {
   tbd: boolean;
   launch_library_id: string | null;
   id: string;
+};
+
+export type LaunchFilters = {
+  id: string;
+  label: string;
 };
