@@ -5,6 +5,5 @@ export const useLaunches = () => {
   return useQuery({
     queryKey: ["launches"],
     queryFn: getLaunches,
-    initialData: [],
   });
 };

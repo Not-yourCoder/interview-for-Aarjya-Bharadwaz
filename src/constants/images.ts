@@ -5,5 +5,6 @@ export const images = {
   wikipedia: "/wikipedia.png",
   flickr: "/flickr.svg",
   article: "/article.svg",
-  pdf: "/pdf.svg"
+  pdf: "/pdf.svg",
+  noresult: "/noresult.svg"
 };

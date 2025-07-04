@@ -10,12 +10,10 @@ import { useState } from 'react'
 import LaunchDetailsDialog from './Details/LaunchDetails'
 import { useLaunchFilter } from '@/context/LaunchType'
 import type { LaunchResponse } from '@/types/launches'
-import TableSkeleton from '../Skeleton/DataTableSkeleton'
 
 
 const DashboardComponent = () => {
     const [selectedLaunch, setSelectedLaunch] = useState<LaunchResponse | null>(null);
-
 
     const { data, isLoading, isError, error } = useLaunches()
     const { data: launchpads } = useLaunchePads()
@@ -33,6 +31,7 @@ const DashboardComponent = () => {
         setSelectedLaunch(null);
     };
 
+    if (!data) return
     const filteredLaunches = data?.filter((launch) => {
         const launchDate = new Date(launch.date_utc);
 
@@ -54,9 +53,6 @@ const DashboardComponent = () => {
         }
         return true;
     });
-
-    if (isLoading) return <TableSkeleton />
-  
 
     return (
         <>
