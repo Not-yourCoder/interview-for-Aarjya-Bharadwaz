@@ -8,19 +8,23 @@ import { useDateRangeFilter } from '@/context/DateRangeContext'
 import { getDateOnly } from '@/utils/helpers'
 import { useState } from 'react'
 import LaunchDetailsDialog from './Details/LaunchDetails'
+import { useLaunchFilter } from '@/context/LaunchType'
+import type { LaunchResponse } from '@/types/launches'
 
 
 const DashboardComponent = () => {
-    const [selectedLaunch, setSelectedLaunch] = useState(null);
+    const [selectedLaunch, setSelectedLaunch] = useState<LaunchResponse | null>(null);
+
 
     const { data } = useLaunches()
     const { data: launchpads } = useLaunchePads()
     const { data: rockets } = useRockets()
     const { data: payloads } = usePayload()
     const { state } = useDateRangeFilter();
+    const { state: launchFilterState } = useLaunchFilter()
 
 
-    const handleRowClick = (launch: any) => {
+    const handleRowClick = (launch: LaunchResponse) => {
         setSelectedLaunch(launch);
     };
 
@@ -40,7 +44,13 @@ const DashboardComponent = () => {
                 return false;
             }
         }
-
+        const selectedType = launchFilterState.selectedFilter;
+        if (selectedType !== "all") {
+            if (selectedType === "success" && !launch.success) return false;
+            if (selectedType === "failed" && launch.success !== false) return false;
+            if (selectedType === "upcoming" && !launch.upcoming) return false;
+            if (selectedType === "tbd" && !launch.tbd) return false;
+        }
         return true;
     });
 

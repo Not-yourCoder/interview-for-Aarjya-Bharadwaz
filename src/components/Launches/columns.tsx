@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { type ColumnDef } from "@tanstack/react-table"
 import { Badge } from "@/components/ui/badge"
+import type { LaunchFilter } from "@/types/filters"
+import type { LaunchResponse } from "@/types/launches"
 
 export const launchColumns = ({ launchpads, rockets, payloads }: {
     launchpads: any[]
     rockets: any[]
     payloads: any[]
-}): ColumnDef<any, any>[] => [
+}): ColumnDef<LaunchResponse, any>[] => [
         {
             id: "rowNumber",
             header: "No.",
@@ -52,15 +54,23 @@ export const launchColumns = ({ launchpads, rockets, payloads }: {
             accessorKey: "success",
             header: "Status",
             cell: ({ row }) => {
-                const status = row.original.success
-                if (status === null)
-                    return <Badge variant="default">N/A</Badge>
-                return status ? (
-                    <Badge variant="success">Success</Badge>
-                ) : (
-                    <Badge variant="failed">Failed</Badge>
-                )
-            },
+                const { success, upcoming, tbd } = row.original;
+                let variant: LaunchFilter = "failed";
+                let label = "Failed";
+
+                if (success) {
+                    variant = "success";
+                    label = "Success";
+                } else if (upcoming) {
+                    variant = "upcoming";
+                    label = "Upcoming";
+                } else if (tbd) {
+                    variant = "upcoming";
+                    label = "TBD";
+                }
+
+                return <Badge variant={variant}>{label}</Badge>;
+              }
         },
         {
             id: "rocket",

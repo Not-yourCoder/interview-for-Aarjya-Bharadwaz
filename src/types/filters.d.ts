@@ -4,3 +4,5 @@ export type DateRange =
       to: Date | undefined;
     }
   | undefined;
+
+export type LaunchFilter = "all" | "success" | "upcoming" | "tbd" | "failed";

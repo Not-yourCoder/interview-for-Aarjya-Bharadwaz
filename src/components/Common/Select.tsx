@@ -7,6 +7,8 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { useLaunchFilter } from "@/context/LaunchType"
+import type { LaunchFilter } from "@/types/filters"
 
 
 type Props = {
@@ -14,8 +16,14 @@ type Props = {
     selectItems: Record<string, string>[]
 }
 export function CommonSelect({ icon, selectItems }: Props) {
+    const { dispatch } = useLaunchFilter()
+
+    const handleSelectedLaunchType = (type: LaunchFilter) => {
+        console.log("type", type)
+        dispatch({ type: "SET_FILTER", payload: type })
+    }
     return (
-        <Select>
+        <Select defaultValue={selectItems[0].id} onValueChange={handleSelectedLaunchType}>
             <SelectTrigger className="w-[220px]">
                 <div className="flex gap-2 items-center">
                     {icon}
@@ -24,7 +32,9 @@ export function CommonSelect({ icon, selectItems }: Props) {
             </SelectTrigger>
             <SelectContent>
                 {selectItems.map((item) => (
-                    <SelectItem value={item.id}>{item.label}</SelectItem>
+                    <SelectItem key={item.id} value={item.id}>
+                        {item.label}
+                    </SelectItem>
                 ))}
             </SelectContent>
         </Select>

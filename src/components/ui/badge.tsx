@@ -18,6 +18,7 @@ const badgeVariants = cva(
           "border-transparent bg-[#FDE2E1] text-[#981B1C] rounded-full text-center font-md ",
         upcoming:
           "border-transparent bg-[#FEF3C7] text-[#92400F] rounded-full text-center font-md ",
+        tbd: "border-transparent bg-blue-400 text-blue-800 rounded-full text-center font-md"
       },
     },
     defaultVariants: {

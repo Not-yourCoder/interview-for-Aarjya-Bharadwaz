@@ -1,14 +1,15 @@
-import React from 'react'
-import { Select } from '../ui/select'
+
 import { launchFilter } from '@/constants/filters'
 import { Funnel } from 'lucide-react'
 import { CommonSelect } from '../Common/Select'
+import { useLaunchFilter } from '@/context/LaunchType'
 
-type Props = {}
 
-const LaunchFilter = (props: Props) => {
+const LaunchFilter = () => {
+    const { state } = useLaunchFilter()
+    console.log("launch type", state)
     return (
-        <CommonSelect icon={<Funnel />} selectItems={launchFilter}/>
+        <CommonSelect icon={<Funnel />} selectItems={launchFilter} />
     )
 }
 

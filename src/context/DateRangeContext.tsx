@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { dateRanges } from "@/constants/filters";
 import type { DateRange } from "@/types/filters";
 import { calculateDateRange } from "@/utils/helpers";

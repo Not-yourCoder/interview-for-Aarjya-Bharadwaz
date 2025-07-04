@@ -14,6 +14,10 @@ export const launchFilter: LaunchFilters[] = [
     label: "Upcoming Launches",
   },
   {
+    id: "tbd",
+    label: "To Be Decided",
+  },
+  {
     id: "failed",
     label: "Failed Launches",
   },
