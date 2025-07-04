@@ -21,13 +21,17 @@ interface DataTableProps<TData, TValue> {
     data: TData[]
     className?: string
     onRowClick: (details: TData) => void
+    isLoading: boolean
+    isError: boolean
+    error: Error | null
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     className,
-    onRowClick
+    onRowClick,
+    isLoading, isError, error
 }: DataTableProps<TData, TValue>) {
     const table = useReactTable({
         data,
@@ -44,12 +48,12 @@ export function DataTable<TData, TValue>({
         <div className={` ${className}`}>
             <div className="rounded-md border-2 border-[#E4E4E7] shadow-sm max-h-4xl">
                 <Table className="w-full">
-                    <TableHeader className="bg-[#E4E4E7]">
+                    <TableHeader className="bg-[#E4E4E7] ">
                         {table.getHeaderGroups().map((headerGroup) => (
                             <TableRow key={headerGroup.id} >
                                 {headerGroup.headers.map((header) => {
                                     return (
-                                        <TableHead key={header.id} className="p-4 text-center">
+                                        <TableHead key={header.id} className="p-3.5 text-center text-[#4B5563]">
                                             {header.isPlaceholder
                                                 ? null
                                                 : flexRender(
@@ -63,7 +67,7 @@ export function DataTable<TData, TValue>({
                         ))}
                     </TableHeader>
                     <TableBody>
-                        {table.getRowModel().rows?.length ? (
+                        {table.getRowModel().rows?.length && !isLoading ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
                                     key={row.id}
@@ -72,19 +76,24 @@ export function DataTable<TData, TValue>({
                                     onClick={() => onRowClick(row.original)}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id} className="p-4 max-w-44 overflow-hidden text-center">
+                                        <TableCell key={cell.id} className="p-3.5 max-w-44 overflow-hidden text-center">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
                                 </TableRow>
                             ))
-                        ) : (
+                        ) : !isError ?
                             <TableRow>
                                 <TableCell colSpan={columns.length} className="h-24 text-center">
                                     No results found.
                                 </TableCell>
+                            </TableRow> :
+                            <TableRow>
+                                <TableCell colSpan={columns.length} className="h-24 text-center">
+                                    {String(error)}
+                                </TableCell>
                             </TableRow>
-                        )}
+                        }
                     </TableBody>
                 </Table>
             </div>

@@ -10,13 +10,14 @@ import { useState } from 'react'
 import LaunchDetailsDialog from './Details/LaunchDetails'
 import { useLaunchFilter } from '@/context/LaunchType'
 import type { LaunchResponse } from '@/types/launches'
+import TableSkeleton from '../Skeleton/DataTableSkeleton'
 
 
 const DashboardComponent = () => {
     const [selectedLaunch, setSelectedLaunch] = useState<LaunchResponse | null>(null);
 
 
-    const { data } = useLaunches()
+    const { data, isLoading, isError, error } = useLaunches()
     const { data: launchpads } = useLaunchePads()
     const { data: rockets } = useRockets()
     const { data: payloads } = usePayload()
@@ -54,9 +55,12 @@ const DashboardComponent = () => {
         return true;
     });
 
+    if (isLoading) return <TableSkeleton />
+  
+
     return (
         <>
-            <DataTable data={filteredLaunches} columns={launchColumns({ launchpads, rockets, payloads })} onRowClick={handleRowClick} />
+            <DataTable data={filteredLaunches} columns={launchColumns({ launchpads, rockets, payloads })} onRowClick={handleRowClick} error={error} isError={isError} isLoading={isLoading} />
             <LaunchDetailsDialog
                 open={!!selectedLaunch}
                 launch={selectedLaunch}
