@@ -3,15 +3,13 @@ import {
     DialogContent,
 } from "@/components/ui/dialog";
 import { Badge } from "../../ui/badge";
-import { Button } from "../../ui/button";
 import { ExternalLink, Globe, Play } from "lucide-react";
-import { formatDateTime, getLaunchStatusVariant, getStatusLabel } from "@/utils/helpers";
+import { formatDateTime, getLaunchStatusVariant } from "@/utils/helpers";
 import { useEffect, useState } from "react";
 import { getLaunchPadsById, getPayloadsById, getRocketsById } from "@/api/api";
 import type { Rocket } from "@/types/rockets";
 import type { Launchpad } from "@/types/launchpads";
 import LaunchDetailsRow from "./DetailsRow";
-import RedditIcon from "@/components/Icons/Reddit";
 import type { Payload } from "@/types/payloads";
 
 export default function LaunchDetailsDialog({ open, launch, onClose }: any) {
@@ -53,20 +51,16 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: any) {
         fetchPayloadById()
     }, [launch]);
 
-
-
-
     if (!launch) return null;
     if (!launch) return null;
-    console.log("launch open", launch);
+
     return (
         <Dialog open={open} onOpenChange={onClose}>
             <DialogContent className="bg-white p-4 w-md max-w-md" >
-                {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b">
                     <div className="flex items-center space-x-3">
                         <img
-                            src={launch.links?.patch?.small || "https://via.placeholder.com/60x60/1a365d/ffffff?text=" + launch.name}
+                            src={launch.links?.patch?.small || "https://via.placeholder.com/60x60" + launch.name}
                             alt={`${launch.name} Mission Patch`}
                             className="w-20 h-20 rounded-lg"
                         />
@@ -96,9 +90,6 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: any) {
                     </div>
                 </div>
 
-                {/* Social Icons */}
-
-                {/* Description */}
                 {launch.details && (
                     <div className="px-4 py-3 border-b">
                         <p className="text-sm text-gray-700 leading-relaxed">
@@ -117,7 +108,6 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: any) {
                     </div>
                 )}
 
-                {/* Mission Details */}
                 <div className="p-4">
                     <LaunchDetailsRow label="Flight Number" value={launch.flight_number} />
                     <LaunchDetailsRow label="Rocket Type" value={rocket?.type} />

@@ -56,7 +56,7 @@ const DashboardComponent = () => {
 
     return (
         <>
-            <DataTable className="max-h-[740px] overflow-auto" data={filteredLaunches} columns={launchColumns({ launchpads, rockets, payloads })} onRowClick={handleRowClick} />
+            <DataTable data={filteredLaunches} columns={launchColumns({ launchpads, rockets, payloads })} onRowClick={handleRowClick} />
             <LaunchDetailsDialog
                 open={!!selectedLaunch}
                 launch={selectedLaunch}
