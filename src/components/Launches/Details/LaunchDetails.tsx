@@ -13,46 +13,75 @@ import LaunchDetailsRow from "./DetailsRow";
 import type { Payload } from "@/types/payloads";
 import LaunchDetailsSkeleton from "@/components/Skeleton/LaunchDetailsSkeleton";
 import { useLaunchePads } from "@/hooks/useLaunchPads";
+import type { LaunchResponse } from "@/types/launches";
 
-export default function LaunchDetailsDialog({ open, launch, onClose }: any) {
+const rocketCache = new Map()
+const launchpadCache = new Map()
+const payloadCache = new Map()
+
+type Props = {
+    open: boolean
+    launch: LaunchResponse | null
+    onClose: () => void
+}
+
+export default function LaunchDetailsDialog({ open, launch, onClose }: Props) {
     const [rocket, setRocket] = useState<Rocket | null>(null);
     const [launchPad, setLaunchPad] = useState<Launchpad | null>(null)
     const [payload, setPayload] = useState<Payload | null>(null)
-
     const { isLoading: launchDetailsLoading } = useLaunchePads()
+
+
+    console.log("Rocket Cache Step 1", rocketCache)
+
     useEffect(() => {
-        const fetchRocketName = async () => {
+        if (!launch) return;
 
-            if (launch?.rocket) {
-                const result = await getRocketsById(launch.rocket)
-                console.log(result)
-                setRocket(result)
+        const { rocket: rocketId, launchpad: launchpadId, payloads } = launch;
+
+        const fetchRocket = async () => {
+            if (rocketCache.has(rocketId)) {
+                console.log("Rocket Cache Step 2", rocketCache)
+                setRocket(rocketCache.get(rocketId));
             } else {
-                setRocket(null);
+                const result = await getRocketsById(rocketId);
+                rocketCache.set(rocketId, result);
+                setRocket(result);
+                console.log("Rocket Cache Step 3", rocketCache)
             }
-        }
-        const fetchLaunchPadName = async () => {
+        };
 
-            if (launch?.launchpad) {
-                const result = await getLaunchPadsById(launch.launchpad)
-                setLaunchPad(result)
+        const fetchLaunchpad = async () => {
+            if (launchpadCache.has(launchpadId)) {
+                setLaunchPad(launchpadCache.get(launchpadId));
             } else {
-                setLaunchPad(null);
+                const result = await getLaunchPadsById(launchpadId);
+                launchpadCache.set(launchpadId, result);
+                setLaunchPad(result);
             }
-        }
+        };
 
-        const fetchPayloadById = async () => {
-            if (launch?.payloads) {
-                const result = await getPayloadsById(launch.payloads[0])
-                setPayload(result)
-            } else {
+        const fetchPayload = async () => {
+            const payloadId = payloads?.[0];
+            if (!payloadId) {
                 setPayload(null);
+                return;
             }
-        }
-        fetchLaunchPadName()
-        fetchRocketName()
-        fetchPayloadById()
+
+            if (payloadCache.has(payloadId)) {
+                setPayload(payloadCache.get(payloadId));
+            } else {
+                const result = await getPayloadsById(payloadId);
+                payloadCache.set(payloadId, result);
+                setPayload(result);
+            }
+        };
+
+        fetchRocket();
+        fetchLaunchpad();
+        fetchPayload();
     }, [launch]);
+
 
     if (!launch) return null;
     if (!launch) return null;
