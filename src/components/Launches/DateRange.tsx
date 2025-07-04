@@ -56,6 +56,7 @@ const DateRangePicker = ({ selectedRange, setSelectedRange }: Props) => {
         dispatch({ type: "SET_DATE_RANGE", payload: initialRange });
     }, []);
 
+    
     return (
         <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-2 md:p-4 max-w-3xl">
             <div className="flex md:gap-4">
