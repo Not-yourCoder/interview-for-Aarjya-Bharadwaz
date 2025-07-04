@@ -13,7 +13,7 @@ const LaunchHeader = () => {
     return (
         <div className='flex items-center justify-between my-4'>
             <Dialog>
-                <DialogTrigger asChild className='min-w-[180px] flex justify-start'>
+                <DialogTrigger asChild className='sm:w-[100px] md:w-[180px] flex justify-start'>
                     <Button>
                         <Calendar />
                         <span>{selectedRange}</span>

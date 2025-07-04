@@ -24,7 +24,7 @@ export function CommonSelect({ icon, selectItems }: Props) {
     }
     return (
         <Select defaultValue={selectItems[0].id} onValueChange={handleSelectedLaunchType}>
-            <SelectTrigger className="w-[220px] border-2 border-[#E4E4E7]">
+            <SelectTrigger className="w-[120px] md:w-[220px] border-2 border-[#E4E4E7] text-xs md:text-[14px]">
                 <div className="flex gap-2 items-center">
                     {icon}
                     <SelectValue placeholder="Select a Launch" />

@@ -57,8 +57,8 @@ const DateRangePicker = ({ selectedRange, setSelectedRange }: Props) => {
     }, []);
 
     return (
-        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-4 max-w-3xl">
-            <div className="flex gap-4">
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-2 md:p-4 max-w-3xl">
+            <div className="flex md:gap-4">
                 <div className="w-32 flex-shrink-0">
                     <div className="space-y-1">
                         {dateRanges.map((range) => (
@@ -76,7 +76,7 @@ const DateRangePicker = ({ selectedRange, setSelectedRange }: Props) => {
                     </div>
                 </div>
 
-                <div className="flex-1 border-l border-gray-200 pl-4 space-y-4 flex gap-2">
+                <div className="flex-1 border-l border-gray-200 pl-4 space-y-4 md:flex gap-2">
                     <Calendar
                         mode="single"
                         selected={from}
