@@ -1,9 +1,9 @@
 import {
     Dialog,
     DialogContent,
+    DialogTitle,
 } from "@/components/ui/dialog";
 import { Badge } from "../../ui/badge";
-import { ExternalLink, Globe, Play } from "lucide-react";
 import { formatDateTime, getLaunchStatusVariant } from "@/utils/helpers";
 import { useEffect, useState } from "react";
 import { getLaunchPadsById, getPayloadsById, getRocketsById } from "@/api/api";
@@ -14,6 +14,7 @@ import type { Payload } from "@/types/payloads";
 import LaunchDetailsSkeleton from "@/components/Skeleton/LaunchDetailsSkeleton";
 import { useLaunchePads } from "@/hooks/useLaunchPads";
 import type { LaunchResponse } from "@/types/launches";
+import LinkIcons from "@/components/LinkIcons/LinkIcons";
 
 const rocketCache = new Map()
 const launchpadCache = new Map()
@@ -32,8 +33,6 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: Props) {
     const { isLoading: launchDetailsLoading } = useLaunchePads()
 
 
-    console.log("Rocket Cache Step 1", rocketCache)
-
     useEffect(() => {
         if (!launch) return;
 
@@ -41,13 +40,11 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: Props) {
 
         const fetchRocket = async () => {
             if (rocketCache.has(rocketId)) {
-                console.log("Rocket Cache Step 2", rocketCache)
                 setRocket(rocketCache.get(rocketId));
             } else {
                 const result = await getRocketsById(rocketId);
                 rocketCache.set(rocketId, result);
                 setRocket(result);
-                console.log("Rocket Cache Step 3", rocketCache)
             }
         };
 
@@ -88,6 +85,7 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: Props) {
 
     return (
         <Dialog open={open} onOpenChange={onClose}>
+            <DialogTitle></DialogTitle>
             <DialogContent className="bg-white p-4 w-md max-w-md" >
                 {launchDetailsLoading ?
                     <LaunchDetailsSkeleton /> :
@@ -110,17 +108,7 @@ export default function LaunchDetailsDialog({ open, launch, onClose }: Props) {
                                         </Badge>
                                     </div>
                                     <p className="text-sm text-gray-600">{rocket?.name}</p>
-                                    <div className="py-2 flex space-x-2 text-gray-400">
-                                        {launch.links?.webcast && (
-                                            <Play size={16} />
-                                        )}
-                                        {launch.links?.wikipedia && (
-                                            <Globe size={16} />
-                                        )}
-                                        {launch.links?.article && (
-                                            <ExternalLink size={16} />
-                                        )}
-                                    </div>
+                                    <LinkIcons launch={launch} />
                                 </div>
                             </div>
                         </div>

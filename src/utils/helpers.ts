@@ -1,3 +1,4 @@
+import { images } from "@/constants/images";
 import type { DateRange } from "@/types/filters";
 import type { LaunchResponse } from "@/types/launches";
 
@@ -50,7 +51,6 @@ export const getStatusLabel = (variant: string) => {
   }
 };
 
-
 export const formatDateTime = (dateString: string | undefined) => {
   if (!dateString) return "N/A";
 
@@ -76,8 +76,29 @@ export const getLaunchStatusVariant = (launch: LaunchResponse) => {
   return "failed";
 };
 
-export const getStatusVariant = (launch: any) => {
+export const getStatusVariant = (launch: LaunchResponse) => {
   if (launch.success) return "success";
   if (launch.upcoming || launch.tbd) return "upcoming";
   return "failed";
+};
+
+export const getIconForLinkType = (type: string) => {
+  switch (type.toLowerCase()) {
+    case "reddit":
+      return images.reddit;
+    case "webcast":
+      return images.youtube;
+    case "wikipedia":
+      return images.wikipedia;
+    case "flickr":
+      return images.flickr;
+    case "article":
+      return images.article;
+    case "pdf":
+      return images.pdf;
+    case "patch":
+      return null;
+    default:
+      return null;
+  }
 };
