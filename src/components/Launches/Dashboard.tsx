@@ -15,7 +15,7 @@ import type { LaunchResponse } from '@/types/launches'
 const DashboardComponent = () => {
     const [selectedLaunch, setSelectedLaunch] = useState<LaunchResponse | null>(null);
 
-    const { data, isLoading, isError, error } = useLaunches()
+    const { data, isLoading, isError } = useLaunches()
     const { data: launchpads } = useLaunchePads()
     const { data: rockets } = useRockets()
     const { data: payloads } = usePayload()
@@ -54,9 +54,11 @@ const DashboardComponent = () => {
         return true;
     });
 
+    if (isError) return <div>Error occured</div>
+    if (isLoading) return <div>Loading</div>
     return (
         <>
-            <DataTable data={filteredLaunches} columns={launchColumns({ launchpads, rockets, payloads })} onRowClick={handleRowClick} error={error} isError={isError} isLoading={isLoading} />
+            <DataTable data={filteredLaunches} columns={launchColumns({ launchpads, rockets, payloads })} onRowClick={handleRowClick} />
             <LaunchDetailsDialog
                 open={!!selectedLaunch}
                 launch={selectedLaunch}
